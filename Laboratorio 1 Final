@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tablas con Bootstrap</title>
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Libros por Tipo</h2>
+
+        
+        <script>
+            //---------------------------------------------------------------------------------------------------------
+            // Declaración de variables
+            //---------------------------------------------------------------------------------------------------------
+            var _idDrama = 5;   
+            var _idFiccion = 5;   
+            var _idSuspenso = 5;   
+            var _idRomance = 5;   
+            //---------------------------------------------------------------------------------------------------------
+            // Metodos
+            //---------------------------------------------------------------------------------------------------------            
+            // Crea un nuevo campo en la tabla, dicho campo se llena con el input readOnly del nombre y del genero. 
+            // El genero determina donde se inserta.
+            // El ID es autogeneral.
+            function InsertarNuevoCampo()
+            {            
+                nombreLibro = document.getElementById("Nombre").value;
+                generoLibro = document.getElementById("Genero").value;                         
+                fila= null;
+                switch (generoLibro.trim()) {
+                case "Drama":     
+                    fila = CrearNuevaFila(_idDrama,nombreLibro); 
+                    _idDrama++;               
+                    break;
+                case "Ficción":  
+                    fila = CrearNuevaFila(_idFiccion,nombreLibro);    
+                    _idFiccion++;               
+                    break;
+                case "Suspenso":     
+                    fila = CrearNuevaFila(_idSuspenso,nombreLibro); 
+                    _idSuspenso++;               
+                    break;
+                case "Romance":     
+                    fila = CrearNuevaFila(_idRomance,nombreLibro); 
+                    _idRomance++;               
+                    break;
+                }                                 
+                document.getElementById(generoLibro.trim()+"Tabla").innerHTML += fila;                   
+            }
+            // Crea la informacion HTML de un nuevo campo y lo retorna.
+            function CrearNuevaFila(id, nombreLibro){
+                nuevaFila =
+                    '<tr>'+
+                        '<td>'+id+'</td>'+
+                        '<td><input readOnly type="text" class="form-control" placeholder="'+nombreLibro+'" value="'+nombreLibro+'"></td>'+
+                        '<td>'+
+                            '<button class="btn btn-primary" onclick="Editar(event)">Editar</button>'+
+                            '<button class="btn btn-success" onclick="Guardar(event)">Guardar</button>' +
+                            '<button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>'+
+                        '</td>'+
+                    '</tr>';
+                return nuevaFila;
+            }           
+            //Elimina la fila en la que se encuentra el boton.
+            function EliminarFila(button) {
+                row = button.parentNode.parentNode;                                
+                var table = row.parentNode;
+                console.log(row)
+                table.deleteRow(row.rowIndex-1);
+            }            
+            //Habilita la edicion del campo
+            function Editar(event){                
+                var botonEditar = event.target;                
+                var fila = botonEditar.closest("tr");                
+                var input = fila.querySelector("td input");
+                input.readOnly = false;
+            }
+            //Finaliza la edicion del campo
+            function Guardar(event){                
+                var botonEditar = event.target;                
+                var fila = botonEditar.closest("tr");                
+                var input = fila.querySelector("td input");
+                input.readOnly = true;
+            }
+        </script>
+<br>
+        <div class="container">
+
+            <form class="row g-3">
+                <div class="col-md-4">
+                  <label for="validationDefault01" class="form-label">Nuevo libro</label>
+                  <input type="text" class="form-control" id="Nombre" value="" required>
+                </div>
+                                       
+                <div class="col-md-4">
+                  <label for="validationDefault04" class="form-label">Genero</label>
+                  <br>
+                  <select class="form-select" id="Genero" required>                    
+                    <option value="Drama">Drama</option>
+                    <option value="Ficción">Ficción</option>
+                    <option value="Suspenso">Suspenso</option>
+                    <option value="Romance">Romance</option>
+                  </select>
+                </div>
+                   
+                <div class="col-md-4">
+                    <br>
+                  <button class="btn btn-success" type="button" id="btn_guardar" onclick="InsertarNuevoCampo()">Agregar nuevo libro</button>
+                </div>
+              </form>
+
+           
+
+        </div>
+<br>
+
+        <h3>Drama</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="DramaTabla">
+                
+                <tr>
+                    <td>1</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Los miserables"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>                        
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Crimen y castigo"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)" >Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Hamlet"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Matar a un ruiseñor"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+         
+            </tbody>
+        </table>
+
+
+        <h3>Ficción</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="FicciónTabla">
+                
+                <tr>
+                    <td>1</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Harry Potter y la piedra filosofal"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="1984"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="El Gran Gatsby"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Don Quijote de la Mancha"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Suspenso</h3>
+        <table  class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id ="SuspensoTabla">
+                <tr>
+                    <td>1</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="El Silencio de los Corderos"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Misery"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="El Resplandor"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="La Chica del Tren"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Romance</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="RomanceTabla">
+                <tr>
+                    <td>1</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Orgullo y Prejuicio"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Cumbres Borrascosas"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Romeo y Julieta"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input readOnly type="text" class="form-control" placeholder="Nombre del libro" value="Bajo el Sol de Medianoche"></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="Editar(event)">Editar</button>
+                        <button class="btn btn-success" onclick="Guardar(event)">Guardar</button>
+                        <button class="btn btn-danger" onclick="EliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
